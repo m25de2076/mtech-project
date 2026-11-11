@@ -1,0 +1,15 @@
+{$APP_DOMAIN:localhost} {
+    handle /api/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle /ws/* {
+        reverse_proxy 127.0.0.1:8000
+    }
+    handle {
+        root * {$APP_DIST:/srv/microclimate/frontend/dist}
+        @usdz path *.usdz
+        header @usdz Content-Type model/vnd.usdz+zip
+        try_files {path} /index.html
+        file_server
+    }
+}
